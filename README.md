@@ -1,0 +1,2 @@
+# aoc
+https://adventofcode.com/
