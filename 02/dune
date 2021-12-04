@@ -1,0 +1,3 @@
+(executable
+ (name ocaml_02)
+ (libraries core))
