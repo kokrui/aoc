@@ -5,7 +5,7 @@ won't be able to stick do the 1-per-day schedule so a reasonable target is to fi
 
 will solve mostly when I'm bored of other work
 
-# how my solutions make me feel
+## solution mood meter
 in an effort to resist the urge of constantly improving and cleaning up my solutions (because i don't have the time to spare), i am enforcing a strict `git push`-and-never-touch-the-file-again rule the instant my code produces correct output
 
 as a coping mechanism i will instead list how each solution makes me feel
