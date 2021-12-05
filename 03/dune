@@ -1,3 +1,9 @@
 (executable
- (name ocaml_03)
- (libraries core))
+ (name ocaml_03A)
+ (libraries core)
+ (modules ocaml_03A))
+
+(executable
+ (name ocaml_03B)
+ (libraries core)
+ (modules ocaml_03B))
