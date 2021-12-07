@@ -21,7 +21,7 @@ let parse_inp inp =
   let blist =
    match List.length bds with
    | 0 -> failwith "huh no boards? prolly sth wrong with List.group above bro"
-   | l -> print_endline (string_of_int (l+69));print_endline (List.nth_exn (List.hd_exn bds) 2);List.map ~f:parse_board bds;
+   | _ -> List.map ~f:parse_board bds
   in
   { 
    nums = nlist;
@@ -36,8 +36,6 @@ let check_lines b =
  (check_direction b || check_direction (Array.transpose_exn b))
 
 let win_output n b =
- (*String.concat ~sep:" " (List.map ~f:(fun x -> string_of_int (fst x)) (Array.to_list (Array.get n 0)))*)
- (*n*)
  n*(Array.fold b ~init:0 ~f:(fun rowsum r -> Array.fold r ~init:rowsum ~f:(fun cellsum (x, visited) -> if visited then cellsum else cellsum + x)))
 
 let solve_p1 inp =
@@ -55,8 +53,24 @@ let solve_p1 inp =
      | Some winner -> win_output hd winner
     in check_win
  in
- print_endline (string_of_int (Array.length (Array.get (List.hd_exn parsed_inp.boards) 0)));
- print_endline (string_of_int (List.hd_exn (List.tl_exn (parsed_inp.nums))));
  f parsed_inp.boards parsed_inp.nums
 
-let () = print_endline (string_of_int (solve_p1 inp))
+let solve_p2 inp =
+ let parsed_inp = parse_inp inp in
+ let rec f boards nums lastboard =
+  match nums with
+  | [] -> failwith "no winner, sth is wrong"
+  | hd::tl ->
+    (* update state *)
+    let boards = List.map ~f:(visit_num hd) boards in
+    (* if win then stop *)
+    let check_win =
+     match ((List.length parsed_inp.boards) - (List.count ~f:check_lines boards)) with
+     | 1 -> f boards tl (List.find_exn ~f:(fun b -> (not (check_lines b))) boards)
+     | 0 -> (win_output hd lastboard) - (hd * hd) (* account for lastboard variable not being updated with last bingo *)
+     | _ -> f boards tl lastboard
+    in check_win
+ in
+ f parsed_inp.boards parsed_inp.nums (List.hd_exn parsed_inp.boards)
+
+let () = print_endline (string_of_int (solve_p1 inp)); print_endline (string_of_int (solve_p2 inp))
